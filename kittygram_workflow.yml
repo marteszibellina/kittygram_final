@@ -66,7 +66,7 @@ jobs:
           # Для каждого пересобранного образа 
           # устанавливаем тег latest, чтобы потом
           # на сервере и в docker-compose.yml не указывать версию
-          tags: marteszibellina/kittygram_backend:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/kittygram_backend:latest
   frontend_tests:
     runs-on: ubuntu-latest
 
@@ -109,7 +109,7 @@ jobs:
         with:
           context: ./frontend/
           push: true
-          tags: marteszibellina/kittygram_frontend:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/kittygram_frontend:latest
   build_gateway_and_push_to_docker_hub:
     name: Push gateway Docker image to DockerHub
     runs-on: ubuntu-latest
@@ -128,7 +128,7 @@ jobs:
         with:
           context: ./nginx/
           push: true
-          tags: marteszibellina/kittygram_gateway:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/kittygram_gateway:latest
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
@@ -170,8 +170,7 @@ jobs:
           sudo docker compose -f docker-compose.production.yml up -d
           # Выполняет миграции и сбор статики
           sudo docker compose -f docker-compose.production.yml exec backend python manage.py migrate
-          sudo docker compose -f docker-compose.production.yml exec backend python manage.py collectstatic
-          sudo docker compose -f docker-compose.production.yml exec backend cp -r /app/collected_static/. /backend_static/static/
+          sudo docker compose -f docker-compose.production.yml exec backend python manage.py collectstatic --no-input
   send_message:
       runs-on: ubuntu-latest
       needs: deploy
@@ -181,4 +180,8 @@ jobs:
         with:
             to: ${{ secrets.TELEGRAM_TO }}
             token: ${{ secrets.TELEGRAM_TOKEN }}
-            message: Деплой проекта Kittygram успешно выполнен!
+            message: | 
+              Деплой проекта Kittygram успешно выполнен!
+              Пуш сделал: ${{ github.actor }}
+              С коммитом: ${{ github.event.commits[0].message }}
+              Ссылка на коммит: https://github.com/${{ github.repository }}/commit/${{github.sha}}

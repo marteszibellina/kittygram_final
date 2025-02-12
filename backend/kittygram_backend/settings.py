@@ -1,16 +1,22 @@
 # flake8: noqa
 import os
 from pathlib import Path
+from django.core.management.utils import get_random_secret_key
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.getenv(
-    'SECRET_KEY',
-    'django-insecure-cg6*%6d51ef8f#4!r3*$vmxm4)abgjw8mo!4y-q*uq1!4$-89$')
+SECRET_KEY = os.getenv('SECRET_KEY', get_random_secret_key())
 
-DEBUG = False
+# Если DEBUG=True:
+# 'True'.lower() == 'true' - истино : DEBUG = True
+# Если DEBUG=False:
+# 'False'.lower() == 'true' - ложь : DEBUG = False
+DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = ['158.160.88.6', 'localhost', '127.0.0.1', 'valerababajovkitty.zapto.org']
+# Заменяем ALLOWED_HOSTS на переменную окружения
+# и разделяем по запятой. Для локального управления оставляем localhost,
+# чтобы проект можно было проверить при локальном запуске
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split()
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -98,7 +104,7 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'collected_static'
+STATIC_ROOT = '/backend_static/static'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
