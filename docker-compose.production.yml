@@ -24,8 +24,7 @@ services:
       interval: 10s
       timeout: 10s
       retries: 5
-    runs-after:
-      - db
+
   frontend:
     env_file: .env
     image: marteszibellina/kittygram_frontend
@@ -47,6 +46,3 @@ services:
       interval: 10s
       timeout: 10s
       retries: 5
-    runs-after:
-      - backend
-
