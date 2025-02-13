@@ -18,7 +18,7 @@ DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 # чтобы проект можно было проверить при локальном запуске
 ALLOWED_HOSTS = [
     'localhost',
-    os.getenv('ALLOWED_HOSTS', '127.0.0.1')
+    os.getenv('DJANGO_ALLOWED_HOSTS', '127.0.0.1')
 ]
 # ALLOWED_HOSTS=['158.160.88.6', 'localhost', '127.0.0.1', 'valerababajovkitty.zapto.org']
 
