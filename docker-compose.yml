@@ -31,6 +31,9 @@ services:
     command: cp -r /app/build/. /static/
     volumes:
       - static:/static
+    depends_on:
+      - gateway
+
   gateway:
     build: ./nginx/
     env_file: .env
@@ -42,8 +45,8 @@ services:
     depends_on:
       - backend
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/health"]  # Проверка готовности
+      test: ["CMD", "curl", "-f", "http://backend:9000/health"]  # Проверка готовности
       interval: 10s
       timeout: 10s
       retries: 5
-
+    command: ["sh", "-c", "until curl -s http://backend:9000/health; do echo waitind for backend; sleep 2; done; nginx -g 'daemon off;'"]
