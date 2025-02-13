@@ -49,4 +49,3 @@ services:
       interval: 10s
       timeout: 10s
       retries: 5
-    command: ["sh", "-c", "until curl -s http://backend:9000/api; do echo waitind for backend; sleep 2; done; nginx -g 'daemon off;'"]
