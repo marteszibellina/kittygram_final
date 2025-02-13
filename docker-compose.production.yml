@@ -31,6 +31,9 @@ services:
     command: cp -r /app/build/. /static/
     volumes:
       - static:/static
+    depends_on:
+      - gateway
+
   gateway:
     image: marteszibellina/kittygram_gateway
     env_file: .env
@@ -46,3 +49,4 @@ services:
       interval: 10s
       timeout: 10s
       retries: 5
+    command: ["sh", "-c", "until curl -s http://backend:9000/health; do echo waitind for backend; sleep 2; done; nginx -g 'daemon off;'"]
