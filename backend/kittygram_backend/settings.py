@@ -16,10 +16,7 @@ DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 # Заменяем ALLOWED_HOSTS на переменную окружения
 # и разделяем по запятой. Для локального управления оставляем localhost,
 # чтобы проект можно было проверить при локальном запуске
-ALLOWED_HOSTS = [
-    'localhost',
-    os.getenv('DJANGO_ALLOWED_HOSTS', '127.0.0.1')
-]
+ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', 'localhost')
 # ALLOWED_HOSTS=['158.160.88.6', 'localhost', '127.0.0.1', 'valerababajovkitty.zapto.org']
 
 INSTALLED_APPS = [
