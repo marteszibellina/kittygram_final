@@ -11,6 +11,11 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql/data  # Подключение том для данных БД
     env_file: .env  # Подключение .env для контейнера db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   backend:
     image: marteszibellina/kittygram_backend
     env_file: .env
@@ -20,9 +25,9 @@ services:
     depends_on:
       - db
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB"]
+      test: ["CMD", "curl", "-f", "http://localhost:9000/health"]
       interval: 10s
-      timeout: 5s
+      timeout: 10s
       retries: 5
   frontend:
     env_file: .env
@@ -40,9 +45,3 @@ services:
       - media:/media
     depends_on:
       - backend
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/health"]
-      interval: 10s
-      timeout: 10s
-      retries: 5
-
