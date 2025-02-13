@@ -19,8 +19,11 @@ services:
       - media:/app/media  # Медиа
     depends_on:
       - db
-    ports:
-      - 9000:9000
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/health"]  # Проверка готовности
+      interval: 10s
+      timeout: 10s
+      retries: 5
 
   frontend:
     env_file: .env
@@ -38,4 +41,9 @@ services:
       - media:/media
     depends_on:
       - backend
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/health"]  # Проверка готовности
+      interval: 10s
+      timeout: 10s
+      retries: 5
 
