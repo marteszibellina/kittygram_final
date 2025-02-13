@@ -45,3 +45,8 @@ services:
       - media:/media
     depends_on:
       - backend
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/health"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
