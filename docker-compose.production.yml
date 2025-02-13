@@ -45,8 +45,8 @@ services:
     depends_on:
       - backend
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/health"]  # Проверка готовности
+      test: ["CMD", "curl", "-f", "http://localhost:9000/api"]  # Проверка готовности
       interval: 10s
       timeout: 10s
       retries: 5
-    command: ["sh", "-c", "until curl -s http://backend:9000/health; do echo waitind for backend; sleep 2; done; nginx -g 'daemon off;'"]
+    command: ["sh", "-c", "until curl -s http://localhost:9000/api; do echo waitind for backend; sleep 2; done; nginx -g 'daemon off;'"]
