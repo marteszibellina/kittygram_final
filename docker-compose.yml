@@ -26,8 +26,6 @@ services:
     command: cp -r /app/build/. /static/
     volumes:
       - static:/static
-    depends_on:
-      - gateway
 
   gateway:
     build: ./nginx/
