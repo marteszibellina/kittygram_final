@@ -32,11 +32,11 @@ services:
   gateway:
     image: marteszibellina/kittygram_gateway
     env_file: .env
-    ports:
-      - 9000:80
     volumes:
       - static:/static
       - media:/media
     depends_on:
       - backend
+    ports:
+      - 9000:80
 
