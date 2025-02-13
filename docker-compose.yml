@@ -41,6 +41,7 @@ services:
       - media:/media
     depends_on:
       - backend
+    command: ["wait-for-it", "backend:9000", "--", "npm", "start"]
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/health"]
       interval: 10s
