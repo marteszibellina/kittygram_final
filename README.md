@@ -12,9 +12,9 @@
 
 1. В корне репозитория был создан файл tests.yml со следующим содержимым:
 ```yaml
-repo_owner: ваш_логин_на_гитхабе
+repo_owner: логин_на_гитхабе
 kittygram_domain: полная ссылка (https://доменное_имя) на проект Kittygram
-dockerhub_username: ваш_логин_на_докерхабе
+dockerhub_username: логин_на_докерхабе
 ```
 
 2. Было скопировано содержимое файла `.github/workflows/main.yml` в файл `kittygram_workflow.yml` в корневой директории проекта.
